@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Omer Moussa — AI &amp; Computational Neuroscience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+    a { color: #58a6ff; text-decoration: none; transition: color .2s; }
+    a:hover { color: #79c0ff; }
+    ::selection { background: #1f6feb44; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0d1117; }
+    ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #21262d;
+    }
+    nav .nav-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+    }
+    nav .logo { font-weight: 700; font-size: 1.1rem; color: #f0f6fc; letter-spacing: -0.02em; }
+    nav .logo span { color: #58a6ff; }
+    nav ul { list-style: none; display: flex; gap: 1.8rem; }
+    nav ul li a {
+      color: #8b949e; font-size: 0.875rem; font-weight: 500;
+      letter-spacing: 0.02em; transition: color .2s;
+    }
+    nav ul li a:hover, nav ul li a.active { color: #f0f6fc; }
+
+    /* Mobile nav toggle */
+    .nav-toggle { display: none; background: none; border: none; color: #c9d1d9; cursor: pointer; font-size: 1.5rem; }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 120px 2rem 80px;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, #1f6feb15 0%, transparent 60%),
+        #0d1117;
+    }
+    .hero-inner {
+      max-width: 1000px; width: 100%;
+      display: flex; align-items: center; gap: 4rem;
+    }
+    .hero-photo {
+      flex-shrink: 0;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #30363d;
+      box-shadow: 0 0 40px rgba(31, 111, 235, 0.15);
+    }
+    .hero-text h1 {
+      font-size: 2.8rem; font-weight: 700; color: #f0f6fc;
+      letter-spacing: -0.03em; line-height: 1.2;
+    }
+    .hero-text .subtitle {
+      font-size: 1.15rem; color: #58a6ff; font-weight: 500;
+      margin: 0.5rem 0 1rem;
+    }
+    .hero-text .affiliation {
+      font-size: 0.95rem; color: #8b949e; margin-bottom: 1.5rem;
+    }
+    .hero-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .hero-links a {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1rem; border-radius: 6px;
+      font-size: 0.85rem; font-weight: 500;
+      border: 1px solid #30363d; color: #c9d1d9;
+      transition: all .2s;
+    }
+    .hero-links a:hover {
+      border-color: #58a6ff; color: #58a6ff;
+      background: #58a6ff0a;
+    }
+    .hero-links a svg { width: 16px; height: 16px; }
+
+    /* ── Sections ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-heading {
+      font-size: 1.6rem; font-weight: 700; color: #f0f6fc;
+      margin-bottom: 2.5rem; letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .section-heading::before {
+      content: ''; display: block;
+      width: 4px; height: 28px; border-radius: 2px;
+      background: linear-gradient(180deg, #58a6ff, #1f6feb);
+    }
+
+    /* ── About ── */
+    #about { background: #0d1117; }
+    .about-text { font-size: 1.05rem; line-height: 1.85; color: #c9d1d9; max-width: 800px; }
+    .about-text strong { color: #f0f6fc; font-weight: 600; }
+    .research-interests {
+      margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .interest-tag {
+      padding: 0.35rem 0.85rem; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 500;
+      background: #1f6feb15; color: #58a6ff;
+      border: 1px solid #1f6feb30;
+    }
+
+    /* ── News ── */
+    #news { background: #161b22; }
+    .news-list { list-style: none; }
+    .news-item {
+      display: flex; gap: 1.5rem; padding: 1rem 0;
+      border-bottom: 1px solid #21262d;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-date {
+      flex-shrink: 0; width: 90px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; color: #58a6ff; font-weight: 500;
+      padding-top: 0.15rem;
+    }
+    .news-content { font-size: 0.95rem; color: #c9d1d9; }
+    .news-content strong { color: #f0f6fc; }
+
+    /* ── Publications ── */
+    #publications { background: #0d1117; }
+    .pub-list { list-style: none; display: flex; flex-direction: column; gap: 1.25rem; }
+    .pub-card {
+      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #21262d;
+      background: #161b22;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .pub-card:hover {
+      border-color: #30363d;
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+    }
+    .pub-venue {
+      display: inline-block;
+      padding: 0.2rem 0.6rem; border-radius: 4px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .venue-iclr { background: #23863620; color: #3fb950; border: 1px solid #23863640; }
+    .venue-interspeech { background: #1f6feb20; color: #58a6ff; border: 1px solid #1f6feb40; }
+    .venue-neurips { background: #a371f720; color: #bc8cff; border: 1px solid #a371f740; }
+    .pub-title {
+      font-size: 1rem; font-weight: 600; color: #f0f6fc;
+      margin-bottom: 0.35rem; line-height: 1.5;
+    }
+    .pub-authors { font-size: 0.875rem; color: #8b949e; }
+    .pub-authors .me { color: #f0f6fc; font-weight: 600; }
+
+    /* ── CV ── */
+    #cv { background: #161b22; }
+    .cv-box {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 2rem 2.5rem;
+      border-radius: 10px;
+      border: 1px solid #21262d;
+      background: linear-gradient(135deg, #0d111700, #1f6feb08);
+    }
+    .cv-box-text h3 { font-size: 1.15rem; color: #f0f6fc; margin-bottom: 0.3rem; }
+    .cv-box-text p { font-size: 0.9rem; color: #8b949e; }
+    .cv-download {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.5rem; border-radius: 6px;
+      font-size: 0.9rem; font-weight: 600;
+      background: #1f6feb; color: #fff;
+      transition: background .2s;
+    }
+    .cv-download:hover { background: #388bfd; color: #fff; }
+    .cv-download svg { width: 18px; height: 18px; }
+
+    /* ── Hobbies ── */
+    #hobbies { background: #0d1117; }
+    .hobbies-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .hobby-card {
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #21262d;
+      background: #161b22;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+    }
+    .hobby-card:hover { border-color: #30363d; transform: translateY(-2px); }
+    .hobby-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .hobby-card h4 { font-size: 0.95rem; color: #f0f6fc; margin-bottom: 0.3rem; }
+    .hobby-card p { font-size: 0.8rem; color: #8b949e; line-height: 1.5; }
+
+    /* ── Footer ── */
+    footer {
+      padding: 3rem 2rem; text-align: center;
+      border-top: 1px solid #21262d;
+      background: #0d1117;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; }
+    .footer-links a { color: #8b949e; font-size: 0.85rem; }
+    .footer-links a:hover { color: #58a6ff; }
+    footer p { font-size: 0.8rem; color: #484f58; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero-inner { flex-direction: column; text-align: center; gap: 2rem; }
+      .hero-text h1 { font-size: 2rem; }
+      .hero-links { justify-content: center; }
+      .cv-box { flex-direction: column; gap: 1.5rem; text-align: center; }
+      nav ul { display: none; }
+      nav ul.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(13,17,23,0.97); padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid #21262d; }
+      .nav-toggle { display: block; }
+    }
+
+    /* ── Animations ── */
+    .fade-in {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">omer<span>.</span>moussa</div>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#cv">CV</a></li>
+      <li><a href="#hobbies">Hobbies</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <img src="profile.jpg" alt="Omer Moussa" class="hero-photo" />
+    <div class="hero-text">
+      <h1>Omer Moussa</h1>
+      <div class="subtitle">Doctoral Researcher in AI &amp; Computational Neuroscience</div>
+      <div class="affiliation">
+        Max Planck Institute for Software Systems (MPI-SWS), Saarbr&uuml;cken, Germany<br/>
+        Bridging AI and Neuroscience (BrAIN) Group &middot; Advised by <a href="https://mtoneva.com" target="_blank">Mariya Toneva</a>
+      </div>
+      <div class="hero-links">
+        <a href="mailto:omoussa@mpi-sws.org">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+          Email
+        </a>
+        <a href="https://scholar.google.com/citations?user=Hx5yRo8AAAAJ" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 110-14 7 7 0 010 14zm0-2a5 5 0 100-10 5 5 0 000 10z"/><path d="M1 8l11-7 11 7"/></svg>
+          Scholar
+        </a>
+        <a href="https://github.com/omermosa" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17 4.7 18 5 18 5c.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .3"/></svg>
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/omer-moussa" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ── -->
+<section id="about">
+  <div class="container fade-in">
+    <h2 class="section-heading">About</h2>
+    <div class="about-text">
+      <p>
+        I am a PhD researcher at the <strong>Max Planck Institute for Software Systems</strong> working at the intersection of
+        <strong>speech and language modeling</strong>, <strong>computational neuroscience</strong>, and <strong>brain-aligned machine learning</strong>.
+        My research investigates how fine-tuning speech models on human fMRI responses can improve semantic representations,
+        model interpretability, and cross-participant generalization.
+      </p>
+      <p style="margin-top:1rem;">
+        I am broadly interested in representation learning, speech processing, natural language understanding,
+        and leveraging brain data to build more human-like AI systems.
+      </p>
+    </div>
+    <div class="research-interests">
+      <span class="interest-tag">Brain-Aligned ML</span>
+      <span class="interest-tag">Speech Processing</span>
+      <span class="interest-tag">Computational Neuroscience</span>
+      <span class="interest-tag">fMRI &amp; Neural Encoding</span>
+      <span class="interest-tag">Representation Learning</span>
+      <span class="interest-tag">NLP</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── News ── -->
+<section id="news">
+  <div class="container fade-in">
+    <h2 class="section-heading">News</h2>
+    <ul class="news-list">
+      <li class="news-item">
+        <div class="news-date">2025</div>
+        <div class="news-content">Paper accepted at <strong>NeurIPS 2025</strong> &mdash; <em>Brain-tuning Improves Generalizability and Efficiency of Brain Alignment in Speech Models</em>.</div>
+      </li>
+      <li class="news-item">
+        <div class="news-date">2025</div>
+        <div class="news-content">Paper accepted at <strong>Interspeech 2025</strong> &mdash; <em>Brain-tuned Speech Models Better Reflect Speech Processing Stages in the Brain</em>.</div>
+      </li>
+      <li class="news-item">
+        <div class="news-date">2025</div>
+        <div class="news-content">Paper accepted at <strong>ICLR 2025</strong> &mdash; <em>Improving Semantic Understanding in Speech Language Models via Brain-tuning</em>.</div>
+      </li>
+      <li class="news-item">
+        <div class="news-date">Sep 2024</div>
+        <div class="news-content">Started my PhD at <strong>MPI-SWS</strong> in the BrAIN group with Prof. Mariya Toneva.</div>
+      </li>
+      <li class="news-item">
+        <div class="news-date">Oct 2022</div>
+        <div class="news-content">Joined the <strong>CS@Max Planck</strong> doctoral program as a fellowship recipient.</div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Publications ── -->
+<section id="publications">
+  <div class="container fade-in">
+    <h2 class="section-heading">Publications</h2>
+    <ul class="pub-list">
+      <li class="pub-card">
+        <span class="pub-venue venue-iclr">ICLR 2025</span>
+        <div class="pub-title">Improving Semantic Understanding in Speech Language Models via Brain-tuning</div>
+        <div class="pub-authors"><span class="me">Omer Moussa</span>, Dietrich Klakow, Mariya Toneva</div>
+      </li>
+      <li class="pub-card">
+        <span class="pub-venue venue-interspeech">Interspeech 2025</span>
+        <div class="pub-title">Brain-tuned Speech Models Better Reflect Speech Processing Stages in the Brain</div>
+        <div class="pub-authors"><span class="me">Omer Moussa</span>, Mariya Toneva</div>
+      </li>
+      <li class="pub-card">
+        <span class="pub-venue venue-neurips">NeurIPS 2025</span>
+        <div class="pub-title">Brain-tuning Improves Generalizability and Efficiency of Brain Alignment in Speech Models</div>
+        <div class="pub-authors"><span class="me">Omer Moussa</span>, Mariya Toneva</div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── CV ── -->
+<section id="cv">
+  <div class="container fade-in">
+    <h2 class="section-heading">Curriculum Vitae</h2>
+    <div class="cv-box">
+      <div class="cv-box-text">
+        <h3>Download my full CV</h3>
+        <p>Education, research experience, publications, awards, and more.</p>
+      </div>
+      <a href="Omer_Moussa_CV.pdf" class="cv-download" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Hobbies ── -->
+<section id="hobbies">
+  <div class="container fade-in">
+    <h2 class="section-heading">Beyond Research</h2>
+    <div class="hobbies-grid">
+      <div class="hobby-card">
+        <div class="hobby-icon">&#9917;</div>
+        <h4>Football</h4>
+        <p>Lifelong football fan and player &mdash; always up for a pickup game.</p>
+      </div>
+      <div class="hobby-card">
+        <div class="hobby-icon">&#127932;</div>
+        <h4>Music</h4>
+        <p>Enjoy listening to and exploring a wide range of genres.</p>
+      </div>
+      <div class="hobby-card">
+        <div class="hobby-icon">&#127758;</div>
+        <h4>Travel</h4>
+        <p>Love exploring new places, cultures, and cuisines.</p>
+      </div>
+      <div class="hobby-card">
+        <div class="hobby-icon">&#128218;</div>
+        <h4>Reading</h4>
+        <p>Books on science, philosophy, and the occasional novel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-links">
+    <a href="mailto:omoussa@mpi-sws.org">omoussa@mpi-sws.org</a>
+    <a href="https://scholar.google.com/citations?user=Hx5yRo8AAAAJ" target="_blank">Google Scholar</a>
+    <a href="https://github.com/omermosa" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/omer-moussa" target="_blank">LinkedIn</a>
+  </div>
+  <p>&copy; 2025 Omer Moussa. Built with care.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script>
+  // Mobile nav toggle
+  document.querySelector('.nav-toggle').addEventListener('click', () => {
+    document.querySelector('nav ul').classList.toggle('open');
+  });
+
+  // Close mobile nav on link click
+  document.querySelectorAll('nav ul a').forEach(link => {
+    link.addEventListener('click', () => document.querySelector('nav ul').classList.remove('open'));
+  });
+
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY + 100;
+    sections.forEach(sec => {
+      const top = sec.offsetTop, height = sec.offsetHeight, id = sec.getAttribute('id');
+      const link = document.querySelector(`nav a[href="#${id}"]`);
+      if (link) {
+        if (scrollY >= top && scrollY < top + height) link.classList.add('active');
+        else link.classList.remove('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
